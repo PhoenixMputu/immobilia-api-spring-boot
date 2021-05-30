@@ -10,11 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GretingsController {
 
-	@RequestMapping(value = "/teste/{name}")
+	@RequestMapping(value = "/course")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
-	public String greetingText(@PathVariable String name) {
-		return "Hello " + name + "!";
+	public String greetingText() {
+		return "Curso de API Rest Spring Boot !";
+	}
+
+	@RequestMapping(value = "/helloworld/{name}")
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping
+	public String retornaOlaMundo(@PathVariable String name) {
+		return name + ", Hello world";
 	}
 
 }
