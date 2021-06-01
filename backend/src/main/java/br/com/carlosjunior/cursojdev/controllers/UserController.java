@@ -52,26 +52,20 @@ public class UserController {
 		List<User> users = userRepository.findAll();
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping(value = "/delete")
 	public ResponseEntity<User> delete(@RequestBody User user) {
 		userRepository.deleteById(user.getId());
 		return new ResponseEntity<User>(user, HttpStatus.OK);
-	}	
-	
+	}
+
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<String> delete(@PathVariable Long id) {
 		userRepository.deleteById(id);
-		return new ResponseEntity<String>("ID: "+id+" deleted success", HttpStatus.OK);
-	}	
-		
-	
-	@PutMapping(value = "/update")
-	public ResponseEntity<User> update(@RequestBody User user) {
-		userRepository.saveAndFlush(user);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
-	}	
-			
-	
-	
+		return new ResponseEntity<String>("ID: " + id + " deleted success", HttpStatus.OK);
+	}
+
+	 
+
+
 }
