@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,15 +22,27 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@GetMapping(value = "/{name}")
-	public String test(@PathVariable String name) {
+	@GetMapping(value = "save/{name}/{age}")
+	public String save(@PathVariable String name, @PathVariable String age) {
 
 		User usuario = new User();
 		usuario.setName(name);
-		usuario.setAge(37);
+		usuario.setAge(Integer.parseInt(age));
 		userRepository.save(usuario);
 
 		return "Salvo com sucesso!";
+	}
+
+	@GetMapping(value = "user/{id}")
+	public ResponseEntity<User> findById(@PathVariable Long id) {
+		User user = userRepository.findById(id).get();
+		return new ResponseEntity<User>(user, HttpStatus.CREATED);
+	}
+
+	@PostMapping(value = "/user")
+	public ResponseEntity<User> user(@RequestBody User user) {
+		User newUser = userRepository.save(user);
+		return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
 	}
 
 	@GetMapping(value = "/list")
@@ -36,5 +50,7 @@ public class UserController {
 		List<User> users = userRepository.findAll();
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
+	
+	
 
 }
