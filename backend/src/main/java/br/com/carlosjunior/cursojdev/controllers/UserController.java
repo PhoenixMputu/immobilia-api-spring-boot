@@ -41,6 +41,13 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
 
+	@GetMapping(value = "user/search/{name}")
+	public ResponseEntity<List<User>> search(@PathVariable String name) {
+		List<User> u = userRepository.buscarPorNome(name.trim().toUpperCase());
+		return new ResponseEntity<List<User>>(u, HttpStatus.OK);
+
+	}
+
 	@PostMapping(value = "/save")
 	public ResponseEntity<User> save(@RequestBody User user) {
 		User newUser = userRepository.save(user);
@@ -65,7 +72,13 @@ public class UserController {
 		return new ResponseEntity<String>("ID: " + id + " deleted success", HttpStatus.OK);
 	}
 
-	 
-
+	@PutMapping(value = "atualizar")
+	public ResponseEntity<?> update(@RequestBody User user) {
+		if (user.getId() == null) {
+			return new ResponseEntity<String>("Id não foi informado para atualização.", HttpStatus.OK);
+		}
+		User userSave = userRepository.saveAndFlush(user);
+		return new ResponseEntity<User>(userSave, HttpStatus.OK);
+	}
 
 }

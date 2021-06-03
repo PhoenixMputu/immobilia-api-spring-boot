@@ -31,9 +31,49 @@
 			</div>
 			<br>
 		</form>
-		<button type="button" class="btn btn-primary" onclick="salvarUsuario()">Salvar</button>
-		<button type="button" class="btn btn-secondary" style="margin-left: 30px;" onclick="document.getElementById('formCadastro').reset()">Novo</button>
-		<div>
+		<button type="button" class="btn btn-success" onclick="salvarUsuario()">Salvar</button>
+		<button type="button" class="btn btn-primary" onclick="document.getElementById('formCadastro').reset()">Novo</button>
+		<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">Pesquisar</button>
+	<div>
+	
+	
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Pesquisar Usuário</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	          <div class="mb-3">
+	            <label for="recipient-name" class="col-form-label">Informe um nome:</label>
+	            <input type="text" class="form-control" id="nameSearch">
+	          </div>
+	          <button type="button" class="btn btn-primary" onclick="searchUser()">Buscar</button>
+	        </form>
+			<table class="table" id="tableResult">
+			  <thead>
+			    <tr>
+			      <th scope="col">#</th>
+			      <th scope="col">Nome</th>
+			      <th scope="col">Idade</th>
+			      <th scope="col">Ação</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  </tbody>
+			</table>	        
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>	
+
+
+
 
 
 		<!-- Option 1: Bootstrap Bundle with Popper and JQuery -->
@@ -50,12 +90,12 @@
 				var nome = $("#name").val();
 				var idade = $("#age").val();
 				
-				if (nome == '' ){
+				if (nome.trim() == '' || nome == null ){
 					alert('Preencha o campo nome!');
 					return;
 				}
 				
-				if (idade== '' ){
+				if (idade.trim() == '' || idade == null){
 					alert('Preencha o campo idade!');
 					return;
 				}
@@ -77,11 +117,49 @@
 				}).fail(function (xhr, status, errorThrwon){
 					alert("Erro ao salvar: " + status + " "+ xhr.responseText);
 				});
-				
-
-
-
 			}
+			
+			function searchUser(){
+				var nome = $("#nameSearch").val();
+				
+				if (nome != null && nome.trim() !='' ){
+
+					$.ajax({
+						method: "GET",
+						url: "users/user/search/"+nome,
+						data:  "",
+						success: function (response){
+							
+							$("#tableResult > tbody > tr").remove();
+							for ( var i = 0 ; i < response.length; i++ ){
+								$("#tableResult > tbody").append('<tr><td>'+response[i].id+'</td><td>'+response[i].name+'</td><td>'+response[i].age+'</td><td><button type="button" class="btn btn-light" onclick="colocarEdicao('+response[i].id+')">Editar</button></td></tr>');	
+							}
+												
+						}					
+					}).fail(function (xhr, status, errorThrwon){
+						alert("Erro buscar usuários: " + status + " "+ xhr.responseText);
+					});				
+				
+				}
+				
+			}
+			
+			function colocarEdicao(id){
+					$.ajax({
+						method: "GET",
+						url: "users/user/"+id,
+						data:  "",
+						success: function (response){
+							$("#id").val(response.id);
+							$("#name").val(response.name);
+							$("#age").val(response.age); 		
+							$("#exampleModal").modal('hide');	
+						}					
+					}).fail(function (xhr, status, errorThrwon){
+						alert("Erro buscar usuário: " + status + " "+ xhr.responseText);
+					});						
+			}			
+			
 		</script>
 		
 </body>

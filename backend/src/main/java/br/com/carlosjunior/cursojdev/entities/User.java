@@ -19,18 +19,24 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
-	
+
 	@Column(name = "name")
 	private String name;
-	
-	@Column(name = "age")	
+
+	@Column(name = "age")
 	private int age;
 
 	public User() {
-		
-		
+
 	}
-	
+
+	public User(Long id, String name, int age) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.age = age;
+	}
+
 	public Long getId() {
 		return id;
 	}
