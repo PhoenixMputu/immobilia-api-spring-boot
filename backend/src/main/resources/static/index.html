@@ -32,6 +32,7 @@
 			<br>
 		</form>
 		<button type="button" class="btn btn-primary" onclick="salvarUsuario()">Salvar</button>
+		<button type="button" class="btn btn-secondary" style="margin-left: 30px;" onclick="document.getElementById('formCadastro').reset()">Novo</button>
 		<div>
 
 
@@ -49,7 +50,37 @@
 				var nome = $("#name").val();
 				var idade = $("#age").val();
 				
-				alert(nome);	
+				if (nome == '' ){
+					alert('Preencha o campo nome!');
+					return;
+				}
+				
+				if (idade== '' ){
+					alert('Preencha o campo idade!');
+					return;
+				}
+				
+								
+				$.ajax({
+					method: "POST",
+					url: "users/save",
+					data: JSON.stringify({
+						id: id,
+						name: nome,
+						age: idade
+					}),
+					contentType: "application/json; charset=utf-8",
+					success: function (response){
+						$("#id").val(response.id);						
+						alert("Salvo com sucesso!");
+					}					
+				}).fail(function (xhr, status, errorThrwon){
+					alert("Erro ao salvar: " + status + " "+ xhr.responseText);
+				});
+				
+
+
+
 			}
 		</script>
 		
