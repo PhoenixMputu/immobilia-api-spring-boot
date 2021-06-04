@@ -10,8 +10,19 @@ Exemplo Simples
 
 ## Tecnologia
 
-`Java` `Spring Boot` 
+`Java` `Spring Boot` `PostgSQL` `Heroku`
 
+
+## Site
+
+<h1 align="center">
+    <img alt="jdev" title="#site" src="https://github.com/carlosjunior1983/crud-spring-boot-rest-api/blob/main/img/site.PNG"  /><br>
+</h1>
+
+
+<h1 align="center">
+    <img alt="jdev" title="#search" src="https://github.com/carlosjunior1983/crud-spring-boot-rest-api/blob/main/img/site.PNG"  /><br>
+</h1>
 
 
 
