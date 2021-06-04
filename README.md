@@ -12,6 +12,22 @@ Exemplo Simples
 
 `Java` `Spring Boot` `PostgSQL` `Heroku`
 
+## Heroku
+
+http://springboot-jdev.herokuapp.com/springboot-rest-api/
+
+
+### Configurar Heroku
+
+no application.properties: spring.datasource.url=${DATABASE_URL}
+
+heroku -v
+heroku login
+heroku git:remote -a <nome-do-app>
+git remote -v
+git subtree push --prefix backend heroku main
+
+
 
 ## Site
 
